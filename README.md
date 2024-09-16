@@ -6,9 +6,9 @@ C++ and assembly for working with an Arduino Uno R3
 
 | Git branch | Program description | Program notes |
 | ---------- | ------------------- | ------------- |
-| [**MULTIPLICATION**](https://github.com/evvic/arduino-c-assembly/tree/MULTIPLICATION) | use external assembly with C++ to write a multiplication program |
-| [**PRIMES**](https://github.com/evvic/arduino-c-assembly/tree/PRIMES) | use external assembly lookup tables with C++ |
-| [**SHARED**](https://github.com/evvic/arduino-c-assembly/tree/SHARED) | alter global external assembly (SRAM memory) variables in C++ program |
+| [**MULTIPLICATION**](https://github.com/evvic/arduino-c-assembly/tree/MULTIPLICATION) | use external assembly with C++ to write a multiplication program | [`Multiply`](#assembly-multiply-function) |
+| [**PRIMES**](https://github.com/evvic/arduino-c-assembly/tree/PRIMES) | use external assembly lookup tables with C++ | [`PrimeNth`](#assembly-primes-function) |
+| [**SHARED**](https://github.com/evvic/arduino-c-assembly/tree/SHARED) | alter global external assembly (SRAM memory) variables in C++ program | [`PlayerFitness`](#assembly-shared-function) |
 
 # Documents
 - [Arduino Uno R3 Documentation](https://docs.arduino.cc/hardware/uno-rev3/)
