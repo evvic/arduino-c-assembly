@@ -24,29 +24,7 @@ extern "C"
 
 char stringBuffer[80];
 
-volatile int16_t x = 1;
-volatile int16_t y = 1;
-
-int16_t get_serial_value() {
-  String inputString = "";
-  delay(100); // need to delay because the while loop will finish before receiving the end of the buffer
-
-  while (Serial.available()) {
-    char inChar = Serial.read();
-    if (inChar >= '0' && inChar <= '9') {
-      inputString += inChar;
-    } else if (inChar == '\n') {
-      // Serial.println("Received line feed");
-      break; // End of input
-    } else {
-      Serial.println("Invalid input. Please enter a 1-byte integer.");
-      inputString = "";
-      break;
-    }
-  }
-
-  return inputString.toInt();
-}
+volatile int16_t index = 0;
 
 void setup() {
   // initialize serial port
@@ -56,19 +34,15 @@ void setup() {
 }
 
 void loop() {
-  Serial.print("\n\r");
+  index = index % 16;
 
-  Serial.print("Enter multiplicand: ");
-  while (!Serial.available()); // Wait for input
-  x = get_serial_value();
-  Serial.println(x);
+  int8_t prime = PrimeNth(index);
 
-  Serial.print("Enter multiplier: ");
-  while (!Serial.available()); // Wait for input
-  y = get_serial_value();
-  Serial.println(y);
-  
-  int16_t product = Multiply(x, y);
-  sprintf(stringBuffer, "ASM Mulitply: %d x %d = %d", x, y, product);
+  sprintf(stringBuffer, "Assembly PrimeNth(%d) = %d", index, prime);
+
   Serial.println(stringBuffer);
+
+  index++;
+
+  delay(500);
 }
