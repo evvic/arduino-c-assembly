@@ -8,7 +8,9 @@ C++ and assembly for working with an Arduino Uno R3
 ## Connector Pinouts
 ![Arduino Uno R3 Connector Pinouts Image](assets/connector-pinouts.png)
 
-## Multiplication program
+# Available Programs
+> This repo separates different programs based on branches (this is because Arduino "sketches" are annoying)
+
 - The git branch [**MULTIPLICATION**](https://github.com/evvic/arduino-c-assembly/tree/MULTIPLICATION) shows how to use external assembly with C++ to write a multiplication program
 
 ## Assembly `Multiply` Function
