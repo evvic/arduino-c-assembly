@@ -1,7 +1,16 @@
 # arduino-c-assembly
 C++ and assembly for working with an Arduino Uno R3
 
-## Important Documents
+# Available Programs
+> This repo separates different programs based on branches (this is because Arduino "sketches" are annoying)
+
+| Git branch | Program description | Program notes |
+| ---------- | ------------------- | ------------- |
+| [**MULTIPLICATION**](https://github.com/evvic/arduino-c-assembly/tree/MULTIPLICATION) | use external assembly with C++ to write a multiplication program | [`Multiply`](#assembly-multiply-function) |
+| [**PRIMES**](https://github.com/evvic/arduino-c-assembly/tree/PRIMES) | use external assembly lookup tables with C++ | [`PrimeNth`](#assembly-primes-function) |
+| [**SHARED**](https://github.com/evvic/arduino-c-assembly/tree/SHARED) | alter global external assembly (SRAM memory) variables in C++ program | [`PlayerFitness`](#assembly-shared-function) |
+
+# Documents
 - [Arduino Uno R3 Documentation](https://docs.arduino.cc/hardware/uno-rev3/)
 - [AVR (Assembly) Instruction Set](https://ww1.microchip.com/downloads/en/devicedoc/atmel-0856-avr-instruction-set-manual.pdf)
 - [ATMega328 Memory](https://web.alfredstate.edu/faculty/weimandn/miscellaneous/atmega_miscellaneous/ATmega328%20SRAM%20Data%20Memory.pdf)
@@ -22,25 +31,28 @@ C++ and assembly for working with an Arduino Uno R3
 - The parameters are always going to take 2 register spaces
     - Even if the paramter is just 1 byte
 
-# Available Programs
-> This repo separates different programs based on branches (this is because Arduino "sketches" are annoying)
+## External Linking
+- Functions defined in Assembly are linked with the C++ program with:
+```c++
+extern "C" int16_t FunctionName(int16_t param1, int16_t param2);
+```
+- `extern "C"` is used over `extern "C++"`
+    - This is because the C++ method will add the params and return type plus a hash to the compiled function name
+    - This makes linking more complicated
 
-| Git branch | Program description |
-| ---------- | ------------------- |
-| [**MULTIPLICATION**](https://github.com/evvic/arduino-c-assembly/tree/MULTIPLICATION) | use external assembly with C++ to write a multiplication program |
-| [**PRIMES**](https://github.com/evvic/arduino-c-assembly/tree/PRIMES) | use external assembly lookup tables with C++ |
 
+# Programs 
 
 ## Assembly `Multiply` Function
 - The function is defined in [`external_assembly_01.ino`](external_assembly_01.ino) as:
 ```C++
-int16_t Multiply(int16_t x, int16_t y);
+extern "C" int16_t Multiply(int16_t x, int16_t y);
 ```
 - Multiply takes 2 16-bit parameters, and returns a 16-bit value
     - The Arduino Uno registers size are 8 bits, therefore the parameters will take up 2 (adjacent) registers
 
 ### Result
-![Serial console output from testing the assembly multiplication](assets/assemply_multiply.png)
+![Serial console output from testing the assembly multiplication](assets/assemply-multiply.png)
 - The `Multiply` function uses the AVR assembly [`muls`](https://ww1.microchip.com/downloads/en/devicedoc/atmel-0856-avr-instruction-set-manual.pdf) instruction
     - `muls` takes 2 **8-bit** registers and outputs a **16-bit** product
         - Therefore based on the example there will be an error when providing a parameter greater than 255
@@ -49,7 +61,7 @@ int16_t Multiply(int16_t x, int16_t y);
 ## Assembly `PRIMES` Function
 - The function is defined in [`external_assembly_01.ino`](external_assembly_01.ino) as:
 ```C++
-int8_t PrimeNth(int8_t number);
+extern "C" int8_t PrimeNth(int8_t number);
 ```
 - PrimeNth takes 1 8-bit parameter (an index), and returns a 8-bit value (a prime)
 - The `PrimeNth` assembly function utilizes a lookup table/array to store the first 16 prime numbers:
@@ -65,3 +77,34 @@ primeTable:
 ![alt text](assets/assembly-primes.png)
 
 - Providing an index (0 <= index < 16) outputs the prime number at that index in the lookup table
+
+## Assembly `SHARED` Function
+- The function and **shared global variables** is defined in [`external_assembly_01.ino`](external_assembly_01.ino) as:
+```C++
+extern "C" int16_t PlayerFitness();
+
+// External values from Assembly
+extern volatile uint8_t powerLevel;
+extern volatile uint8_t livesLeft;
+```
+- `PlayerFitness` function takes no parameters but returns a 16-bit integer
+    - It simply multiples the `powerLevel` and `livesLeft` amd returns the product
+
+The global shared variables are declared in Assembly [`asm.S`](asm.S) `.data` section:
+```s
+.data  
+
+.comm powerLevel, 1
+.global powerLevel
+
+.comm livesLeft, 1
+.global livesLeft
+```
+- Here they are declared as 1-byte
+- The variables cannot be initialized with values here
+
+### Result
+![Screenshot of serial console running powerlevel program based on user input](assets/assembly-powerlevel.png)
+- The user inputs the `powerLevel` and `livesLeft` values
+- These values are not explicitly provided in `PlayerFitness` function
+    - Because they are external global variables assembly has access to
