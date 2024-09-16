@@ -18,7 +18,26 @@ extern volatile uint8_t livesLeft;
 
 char stringBuffer[80];
 
-volatile int16_t index = 0;
+uint8_t get_serial_value() {
+  String inputString = "";
+  delay(100); // need to delay because the while loop will finish before receiving the end of the buffer
+
+  while (Serial.available()) {
+    char inChar = Serial.read();
+    if (inChar >= '0' && inChar <= '9') {
+      inputString += inChar;
+    } else if (inChar == '\n') {
+      // Serial.println("Received line feed");
+      break; // End of input
+    } else {
+      Serial.println("Invalid input. Please enter a 1-byte integer.");
+      inputString = "";
+      break;
+    }
+  }
+
+  return inputString.toInt();
+}
 
 void setup() {
   // initialize serial port
@@ -28,15 +47,22 @@ void setup() {
 }
 
 void loop() {
+  Serial.print("\n\r");
+
+  Serial.print("Enter players power level: ");
+  while (!Serial.available()); // Wait for input
+  powerLevel = get_serial_value();
+  Serial.println(powerLevel);
+
+  Serial.print("Enter players lives left: ");
+  while (!Serial.available()); // Wait for input
+  livesLeft = get_serial_value();
+  Serial.println(livesLeft);
 
   int16_t level = PlayerFitness();
 
   sprintf(stringBuffer, "External Assembly PlayerFitness() = %d", level);
-  Serial.println(powerLevel);
-
-
   Serial.println(stringBuffer);
 
-  delay(1000);
-  index++;
+  delay(100);
 }
