@@ -20,6 +20,7 @@
 
 ; export ASM functions to C/C++
 
+;r25:r24          r25:r24  , r23:r22
 ;int16_t Multiply(int16_t x, int16_t y);
 .global Multiply
 
@@ -39,7 +40,11 @@ Multiply:
   muls r24, r22                   ; multiply registers r24 and r22 together
                                   ; the result is stored in r0, r1
 
-  movw r24, r0                    ; copy the WORD from r1:r0 -> r25:r24
+  movw r24, r0                    ; copy the register pair from r1:r0 -> r25:r24
+                                  ; assembly syntax infers r25:r24 from providing r24
 
+  pop r1                          ; pop stack and restore r0, r1
+  pop r0
+  ret
 
 .endfunc
