@@ -25,8 +25,11 @@ C++ and assembly for working with an Arduino Uno R3
 # Available Programs
 > This repo separates different programs based on branches (this is because Arduino "sketches" are annoying)
 
-- The git branch [**MULTIPLICATION**](https://github.com/evvic/arduino-c-assembly/tree/MULTIPLICATION) shows how to use external assembly with C++ to write a multiplication program
-- The git branch [**PRIMES**](https://github.com/evvic/arduino-c-assembly/tree/PRIMES) shows how to use external assembly  lookup tables with C++
+| Git branch | Program description |
+| ---------- | ------------------- |
+| [**MULTIPLICATION**](https://github.com/evvic/arduino-c-assembly/tree/MULTIPLICATION) | shows how to use external assembly with C++ to write a multiplication program |
+| [**PRIMES**](https://github.com/evvic/arduino-c-assembly/tree/PRIMES) | shows how to use external assembly lookup tables with C++ |
+
 
 ## Assembly `Multiply` Function
 - The function is defined in [`external_assembly_01.ino`](external_assembly_01.ino) as:
