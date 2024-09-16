@@ -56,15 +56,16 @@ PlayerFitness:
 
   ; ASM SRAM variables are just storage allcoation, cannot be initialized
 
-  ldi ZL, lo8(_powerLevel)        ; load Z pointer to _powerLevel
-  ldi ZH, hi8(_powerLevel)        ; now ZH:ZL -> _powerLevel
-  lpm r18, Z                      ; load 1-byte pointed to by the Z register to the destination register
-  sts powerLevel, r18             ; store _powerLevel in register into powerLevel space in SRAM
+  ; THE FOLLOWING LINES ARE NOT NEEDED AS powerLevel AND livesLeft ARE SET IN THE C++ PROGRAM
+  ;ldi ZL, lo8(_powerLevel)        ; load Z pointer to _powerLevel
+  ;ldi ZH, hi8(_powerLevel)        ; now ZH:ZL -> _powerLevel
+  ;lpm r18, Z                      ; load 1-byte pointed to by the Z register to the destination register
+  ;sts powerLevel, r18             ; store _powerLevel in register into powerLevel space in SRAM
 
-  ldi ZL, lo8(_livesLeft)         ; load Z pointer to _livesLeft
-  ldi ZH, hi8(_livesLeft)         ; now ZH:ZL -> _livesLeft
-  lpm r18, Z                      ; load 1-byte pointed to by the Z register to the destination register
-  sts livesLeft, r18              ; store _livesLeft in register into powerLevel space in SRAM
+  ;ldi ZL, lo8(_livesLeft)         ; load Z pointer to _livesLeft
+  ;ldi ZH, hi8(_livesLeft)         ; now ZH:ZL -> _livesLeft
+  ;lpm r18, Z                      ; load 1-byte pointed to by the Z register to the destination register
+  ;sts livesLeft, r18              ; store _livesLeft in register into powerLevel space in SRAM
 
   ldi r25, 0x00                   ; make sure upper byte is 0 of passed 8-bit param
 
