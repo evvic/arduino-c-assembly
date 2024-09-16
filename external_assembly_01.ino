@@ -10,17 +10,11 @@ using namespace std;
 
 // External functions from assembly
 // Declaring as "C" functions instead of C++ due to C++ trying to give the functions unique names
-extern "C"
-{
-  int16_t Multiply(int16_t x, int16_t y);
-  void DigitalSetASM(int8_t port, int8_t bit);
-  void DigitalClrASM(int8_t port, int8_t bit);
-  void TurnLEDOn();
-  void TurnLEDOff();
-  void SetLED(int8_t state);
-  int8_t PrimeNth(int8_t number);
-  int16_t PlayerFitness();
-}
+extern "C" int16_t PlayerFitness();
+
+// External values from Assembly
+extern volatile uint8_t powerLevel;
+extern volatile uint8_t livesLeft;
 
 char stringBuffer[80];
 
@@ -34,15 +28,15 @@ void setup() {
 }
 
 void loop() {
-  index = index % 16;
 
-  int8_t prime = PrimeNth(index);
+  int16_t level = PlayerFitness();
 
-  sprintf(stringBuffer, "Assembly PrimeNth(%d) = %d", index, prime);
+  sprintf(stringBuffer, "External Assembly PlayerFitness() = %d", level);
+  Serial.println(powerLevel);
+
 
   Serial.println(stringBuffer);
 
+  delay(1000);
   index++;
-
-  delay(500);
 }
