@@ -27,3 +27,9 @@ int16_t Multiply(int16_t x, int16_t y);
 
 - Notice param 1 and return both use the same registers for this board
     - Therefore 
+
+### Result
+![Serial console output from testing the assembly multiplication](assets/assemply_multiply.png)
+- The `Multiply` function uses the AVR assembly [`muls`](https://ww1.microchip.com/downloads/en/devicedoc/atmel-0856-avr-instruction-set-manual.pdf) instruction
+    - `muls` takes 2 **8-bit** registers and outputs a **16-bit** product
+        - Therefore based on the example there will be an error when providing a parameter greater than 255
