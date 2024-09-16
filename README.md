@@ -52,7 +52,7 @@ extern "C" int16_t Multiply(int16_t x, int16_t y);
     - The Arduino Uno registers size are 8 bits, therefore the parameters will take up 2 (adjacent) registers
 
 ### Result
-![Serial console output from testing the assembly multiplication](assets/assemply_multiply.png)
+![Serial console output from testing the assembly multiplication](assets/assemply-multiply.png)
 - The `Multiply` function uses the AVR assembly [`muls`](https://ww1.microchip.com/downloads/en/devicedoc/atmel-0856-avr-instruction-set-manual.pdf) instruction
     - `muls` takes 2 **8-bit** registers and outputs a **16-bit** product
         - Therefore based on the example there will be an error when providing a parameter greater than 255
@@ -87,7 +87,7 @@ extern "C" int16_t PlayerFitness();
 extern volatile uint8_t powerLevel;
 extern volatile uint8_t livesLeft;
 ```
-- `PlayerFitness` fucntion takes no parameters but returns a 16-bit integer
+- `PlayerFitness` function takes no parameters but returns a 16-bit integer
     - It simply multiples the `powerLevel` and `livesLeft` amd returns the product
 
 The global shared variables are declared in Assembly [`asm.S`](asm.S) `.data` section:
@@ -104,3 +104,7 @@ The global shared variables are declared in Assembly [`asm.S`](asm.S) `.data` se
 - The variables cannot be initialized with values here
 
 ### Result
+![Screenshot of serial console running powerlevel program based on user input](assets/assembly-powerlevel.png)
+- The user inputs the `powerLevel` and `livesLeft` values
+- These values are not explicitly provided in `PlayerFitness` function
+    - Because they are external global variables assembly has access to
