@@ -1,8 +1,11 @@
 # arduino-c-assembly
 C++ and assembly for working with an Arduino Uno R3
-> [ARDUINO UNO R3 DOCUMENTATION](https://docs.arduino.cc/hardware/uno-rev3/)
 
-### Connector Pinouts
+## Important Documents
+- [Arduino Uno R3 Documentation](https://docs.arduino.cc/hardware/uno-rev3/)
+- [AVR (Assembly) Instruction Set](https://ww1.microchip.com/downloads/en/devicedoc/atmel-0856-avr-instruction-set-manual.pdf)
+
+## Connector Pinouts
 ![Arduino Uno R3 Connector Pinouts Image](assets/connector-pinouts.png)
 
 ## Multiplication program
